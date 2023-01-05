@@ -28,22 +28,30 @@ export default {
   },
   components: {AddRecipeForm, RecipeList},
   methods: {
-    deleteRecipe(id) {
-      this.recipes = this.recipes.filter((recipe) => recipe.id !== id)
+    async deleteRecipe(id) {
+      const res = await fetch(`/api/recipes/${id}`, {
+        method: 'DELETE'
+      })
+      await this.fetchRecipes()
     },
-    addRecipe(newRecipe) {
-      this.recipes = [...this.recipes, newRecipe]
+    async addRecipe(newRecipe) {
+      const res = await fetch('/api/recipes', {
+        method: 'POST',
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify(newRecipe)})
+      const savedRecipe = await res.json()
+      this.recipes = [...this.recipes, savedRecipe]
     },
     toggleAddForm() {
       this.showAddRecipe = !this.showAddRecipe
+    },
+    async fetchRecipes() {
+      const res = await fetch('/api/recipes')
+      this.recipes = await res.json()
     }
   },
-  mounted() {
-    this.recipes = [
-      {id: 1, name: 'Name 1', creator: 'Me'},
-      {id: 2, name: 'Recipe 2', creator: 'Somebody else'},
-      {id: 3, name: 'My favourite chicken', creator: 'Raymond'},
-    ]
+  async mounted() {
+    await this.fetchRecipes()
   }
 }
 </script>
