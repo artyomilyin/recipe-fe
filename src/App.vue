@@ -1,13 +1,12 @@
 <template>
-  <header>
-    <div>
-      <h1>Recipe list</h1>
-    </div>
-  </header>
-  <div class="p-5 container">
-    <button @click="toggleAddForm" class="p-5 border ...">
+  <div class="p-5 rounded-xl max-w-sm mx-auto flex">
+    <h1 class="text-3xl p-2 px-5 max-w-sm mx-auto">Recipe list</h1>
+    <button @click="toggleAddForm"
+            class="p-2 border rounded-xl max-w-sm ml-auto bg-green-100 ...">
       {{ showAddRecipe ? 'Close' : 'Add recipe' }}
     </button>
+  </div>
+  <div class="mx-10 p-5">
     <div v-show="showAddRecipe">
       <AddRecipeForm @add-recipe="addRecipe"></AddRecipeForm>
     </div>
